@@ -49,6 +49,13 @@
     .cell:hover {
       background-color: #f0f0f0;
     }
+
+    #message {
+      height: 14px;
+      margin-top: 1px;
+      font-size: 10px;
+      color: #333;
+    }
   </style>
 </head>
 <body>
@@ -58,11 +65,13 @@
   </div>
 
   <div id="game"></div>
+  <div id="message"></div>
 
   <script>
     const game = document.getElementById("game");
     const scoreXEl = document.getElementById("scoreX");
     const scoreOEl = document.getElementById("scoreO");
+    const messageEl = document.getElementById("message");
 
     let board = Array(9).fill(null);
     let currentPlayer = "X";
@@ -87,16 +96,16 @@
       e.target.textContent = currentPlayer;
 
       if (checkWin(currentPlayer)) {
-        alert(`Ganó ${currentPlayer}`);
+        showMessage(`Ganó ${currentPlayer}`);
         score[currentPlayer]++;
         updateScore();
-        resetGame();
+        setTimeout(resetGame, 1000);
         return;
       }
 
       if (board.every(cell => cell)) {
-        alert("Empate");
-        resetGame();
+        showMessage("Empate");
+        setTimeout(resetGame, 1000);
         return;
       }
 
@@ -117,9 +126,14 @@
       scoreOEl.textContent = score.O;
     }
 
+    function showMessage(text) {
+      messageEl.textContent = text;
+    }
+
     function resetGame() {
       board = Array(9).fill(null);
       createBoard();
+      messageEl.textContent = "";
     }
 
     createBoard();
